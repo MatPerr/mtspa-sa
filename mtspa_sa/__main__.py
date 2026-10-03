@@ -21,7 +21,7 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=50_000)
     parser.add_argument("--runs", type=int, default=1)
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--plot", action="store_true", help="Display a plot of the resulting tours")
+    parser.add_argument("--plot", action="store_true", help="Display tours and optimization losses")
     parser.add_argument(
         "--loss-config",
         choices=tuple(LOSS_CONFIGS),
@@ -68,7 +68,7 @@ def main() -> None:
 
         from .reporting import plot_tours
 
-        plot_tours(problem, solution.tours)
+        plot_tours(problem, solution.tours, solution.loss_history)
         plt.show()
 
 

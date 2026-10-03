@@ -56,14 +56,17 @@ Distance keeps its configured importance of 1. Weights stay fixed throughout
 optimization and are shared by parallel runs. This normalizes the objectives
 across datasets; it does not guarantee feasibility or optimality.
 
-Display a plot of the resulting tours with [`reporting.py`](mtspa_sa/reporting.py):
+Display the resulting tours and optimization losses with [`reporting.py`](mtspa_sa/reporting.py):
 
 ```bash
 uv run mtspa-sa data/corsica_nurses.json --steps 50000 --plot
 ```
 
 Each agent has a color; square markers are homes. Lines connect visits directly
-in route order rather than following roads. In Python, `plot_tours(problem, solution.tours)`
+in route order rather than following roads. The right subplot shows current and best
+loss, sampled every 1% of iterations (including the start and finish). For parallel
+runs, it shows the history of the winning run.
+In Python, `plot_tours(problem, solution.tours, solution.loss_history)`
 returns a [Matplotlib figure](https://matplotlib.org/stable/api/figure_api.html)
 that you can display or save.
 

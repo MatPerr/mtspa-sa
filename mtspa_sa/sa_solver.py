@@ -2,6 +2,7 @@
 
 import math
 import random
+from dataclasses import replace
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from tqdm import tqdm
@@ -9,6 +10,7 @@ from tqdm import tqdm
 from .datamodel import (
     AgentId,
     LossConfig,
+    LossSample,
     MetricName,
     ProblemData,
     Solution,
@@ -82,8 +84,10 @@ class SimulatedAnnealingSolver:
         best = current
         temperature_config = calibrate_temperature(current, steps, self._sample_candidate)
         temperature = temperature_config.initial_temperature
+        history = [LossSample(0, current.loss, best.loss)]
+        sample_iterations = {(steps * percent + 99) // 100 for percent in range(1, 101)}
 
-        for _ in tqdm(range(steps), desc="SA steps", unit="step"):
+        for iteration in tqdm(range(1, steps + 1), desc="SA steps", unit="step"):
             candidate = self._sample_candidate(current)
             if candidate is not None:
                 loss_change = candidate.loss - current.loss
@@ -95,7 +99,9 @@ class SimulatedAnnealingSolver:
                     if current.loss < best.loss:
                         best = current
             temperature *= temperature_config.cooling_rate
-        return best
+            if iteration in sample_iterations:
+                history.append(LossSample(iteration, current.loss, best.loss))
+        return replace(best, loss_history=history)
 
     def optimize_parallel(self, steps: int, n_runs: int) -> Solution:
         """Run independently seeded searches in worker processes."""

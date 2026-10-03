@@ -100,11 +100,19 @@ class SolutionMetrics:
 
 
 @dataclass(frozen=True, slots=True)
+class LossSample:
+    iteration: int
+    loss: float
+    best_loss: float
+
+
+@dataclass(frozen=True, slots=True)
 class Solution:
     tours: Tours
     tour_metrics: list[TourMetrics]
     solution_metrics: SolutionMetrics
     loss: float
+    loss_history: list[LossSample] = field(default_factory=list)
 
 
 class MetricName(StrEnum):
