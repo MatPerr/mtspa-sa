@@ -1,0 +1,16 @@
+[project]
+name = "mtspa-sa"
+version = "0.1.0"
+description = "A minimal simulated annealing example for multi-agent routing"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "pyyaml>=6.0.3",
+    "tqdm>=4.70.1",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.6.2",
+]

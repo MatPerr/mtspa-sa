@@ -1,0 +1,42 @@
+default: shortest_distance
+
+profiles:
+  shortest_distance:
+    name: Shortest distance
+    importances:
+      total_distance: 1.0
+      distance_std: 0.0
+      gain_per_hour_std: 0.0
+      total_lateness: 11.7
+      total_waiting_time: 0.0
+      total_overtime: 0.0
+
+  fair_hourly_pay:
+    name: Fair hourly pay
+    importances:
+      total_distance: 1.0
+      distance_std: 0.0
+      gain_per_hour_std: 0.1624
+      total_lateness: 11.7
+      total_waiting_time: 0.0
+      total_overtime: 0.0
+
+  fair_distance:
+    name: Fair distance
+    importances:
+      total_distance: 1.0
+      distance_std: 1.262
+      gain_per_hour_std: 0.0
+      total_lateness: 11.7
+      total_waiting_time: 0.0
+      total_overtime: 0.0
+
+  maximum_uptime:
+    name: Maximum uptime
+    importances:
+      total_distance: 1.0
+      distance_std: 0.0
+      gain_per_hour_std: 0.0
+      total_lateness: 11.7
+      total_waiting_time: 0.5343
+      total_overtime: 0.0
