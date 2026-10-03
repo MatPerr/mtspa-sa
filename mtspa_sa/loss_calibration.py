@@ -5,9 +5,9 @@ import random
 import statistics
 from collections.abc import Iterable
 
-from datamodel import MetricName, ProblemData
-from utils import FALLBACK_DELTA_MAGNITUDE, MIN_DELTA_MAGNITUDE, compute_solution_metrics
-from variation_operator import initialize_random_tours, sample_neighbor
+from .datamodel import MetricName, ProblemData
+from .utils import FALLBACK_DELTA_MAGNITUDE, MIN_DELTA_MAGNITUDE, compute_solution_metrics
+from .variation_operator import initialize_random_tours, sample_neighbor
 
 DEFAULT_CALIBRATION_SAMPLES = 256
 DEFAULT_CALIBRATION_SEED = 0

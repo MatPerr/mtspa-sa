@@ -5,7 +5,7 @@ import math
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 
-from datamodel import ProblemData, Tours
+from .datamodel import ProblemData, Tours
 
 
 def plot_tours(problem: ProblemData, tours: Tours) -> Figure:

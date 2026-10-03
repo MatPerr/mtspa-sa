@@ -8,7 +8,7 @@ from pathlib import Path
 
 import yaml
 
-from datamodel import (
+from .datamodel import (
     Agent,
     AgentId,
     LossConfig,
@@ -49,6 +49,9 @@ def load_loss_configs(filepath: str | Path) -> tuple[dict[str, LossConfig], str]
 
 
 LOSS_CONFIG_PATH = Path(__file__).with_name("loss_config.yaml")
+if not LOSS_CONFIG_PATH.is_file():
+    # Editable installs use the root YAML; wheels include a packaged copy.
+    LOSS_CONFIG_PATH = Path(__file__).resolve().parent.parent / "loss_config.yaml"
 LOSS_CONFIGS, DEFAULT_LOSS_CONFIG_ID = load_loss_configs(LOSS_CONFIG_PATH)
 
 

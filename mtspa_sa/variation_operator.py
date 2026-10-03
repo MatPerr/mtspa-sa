@@ -3,7 +3,7 @@
 import random
 from bisect import insort_right
 
-from datamodel import AgentId, ProblemData, Tour, Tours
+from .datamodel import AgentId, ProblemData, Tour, Tours
 
 
 SWAP_PROBABILITY = 0.5

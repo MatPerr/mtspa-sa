@@ -4,8 +4,8 @@ import math
 import statistics
 from collections.abc import Callable
 
-from datamodel import Solution, TemperatureConfig
-from utils import FALLBACK_DELTA_MAGNITUDE, MIN_DELTA_MAGNITUDE
+from .datamodel import Solution, TemperatureConfig
+from .utils import FALLBACK_DELTA_MAGNITUDE, MIN_DELTA_MAGNITUDE
 
 # Acceptance probabilities for the typical delta sampled around the initial solution.
 INITIAL_REFERENCE_ACCEPTANCE_PROBABILITY = 0.8

@@ -36,14 +36,14 @@ Install dependencies and run a reproducible search:
 
 ```bash
 uv sync --locked
-uv run python sa_solver.py data/belgium_real_estate.json --steps 50000 --seed 0
+uv run mtspa-sa data/belgium_real_estate.json --steps 50000 --seed 0
 ```
 
 Use `--runs 4` for parallel searches and
 `--loss-config fair_distance` to choose an objective. Available objectives are
 `shortest_distance`, `fair_hourly_pay`, `fair_distance`, and `maximum_uptime`.
 Relative metric importances are editable in [`loss_config.yaml`](loss_config.yaml).
-[`loss_calibration.py`](loss_calibration.py) converts them to dataset-specific weights
+[`loss_calibration.py`](mtspa_sa/loss_calibration.py) converts them to dataset-specific weights
 once when constructing the solver. It samples 256 random moves with a separate,
 fixed-seed RNG and estimates each metric's typical change as the median nonzero
 absolute change (falling back to 1 if none is observed):
@@ -56,10 +56,10 @@ Distance keeps its configured importance of 1. Weights stay fixed throughout
 optimization and are shared by parallel runs. This normalizes the objectives
 across datasets; it does not guarantee feasibility or optimality.
 
-Display a plot of the resulting tours with [`reporting.py`](reporting.py):
+Display a plot of the resulting tours with [`reporting.py`](mtspa_sa/reporting.py):
 
 ```bash
-uv run python sa_solver.py data/corsica_nurses.json --steps 50000 --plot
+uv run mtspa-sa data/corsica_nurses.json --steps 50000 --plot
 ```
 
 Each agent has a color; square markers are homes. Lines connect visits directly
@@ -79,11 +79,39 @@ in seconds, so no routing service is needed. JSON and gzip-compressed JSON are s
 
 Pass any dataset path in place of `data/belgium_real_estate.json`.
 
-The search runs in [`sa_solver.py`](sa_solver.py), with initialization and moves
-in [`variation_operator.py`](variation_operator.py), metric calculations and loading
-in [`utils.py`](utils.py), models in [`datamodel.py`](datamodel.py), loss calibration
-in [`loss_calibration.py`](loss_calibration.py), and temperature calibration
-in [`temperature_calibration.py`](temperature_calibration.py).
+All Python code lives in the `mtspa_sa/` package; sample data and the editable
+loss config stay at the root:
+
+```text
+mtspa-sa/
+├── mtspa_sa/
+│   ├── __init__.py
+│   ├── __main__.py              # CLI
+│   ├── sa_solver.py             # Algorithm
+│   ├── datamodel.py
+│   ├── loss_calibration.py
+│   ├── temperature_calibration.py
+│   ├── variation_operator.py
+│   ├── reporting.py
+│   └── utils.py
+├── data/
+├── loss_config.yaml
+├── README.md
+├── pyproject.toml
+└── uv.lock
+```
+
+`uv run python -m mtspa_sa` is equivalent to `uv run mtspa-sa`.
+Run these commands from the repository root, or supply a dataset path when
+running elsewhere. Wheels include a copy of the default loss config; editable
+installs read the root YAML.
+
+The CLI lives in [`__main__.py`](mtspa_sa/__main__.py). The search runs in
+[`sa_solver.py`](mtspa_sa/sa_solver.py), with initialization and moves in
+[`variation_operator.py`](mtspa_sa/variation_operator.py), metric calculations and
+loading in [`utils.py`](mtspa_sa/utils.py), models in [`datamodel.py`](mtspa_sa/datamodel.py),
+loss calibration in [`loss_calibration.py`](mtspa_sa/loss_calibration.py), and
+temperature calibration in [`temperature_calibration.py`](mtspa_sa/temperature_calibration.py).
 
 The call flow for one search:
 
